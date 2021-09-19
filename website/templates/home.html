@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-7 mx-auto py-5">
+        <h1 class="fw-bold mb-4">📮 Posts.</h1>
+        <a href="/create-post" class="btn btn-dark mb-2 px-3 py-2 fw-bold">Create Post</a>
+        {% for post in posts %}
+        <div class="p-3 border shadow-sm rounded mb-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/{{ post.user.username }}" class="text-decoration-none text-dark d-block fw-bold mb-2">{{
+                    post.user.username }}</a>
+
+                {% if user.id == post.author %}
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="postDropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        🔧
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="postDropdownMenuButton">
+                        <li><a class="dropdown-item" href="/delete-post/{{ post.id }}">🔥 Delete</a></li>
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            <div>
+                {{ post.content }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

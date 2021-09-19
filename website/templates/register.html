@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}📝 Register{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-5 mx-auto py-5">
+        <h1 class="text-center fw-bold mb-4">📝 Register.</h1>
+        <form action="" method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">👤 Username</label>
+                <input type="text" class="form-control py-2" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">📧 Email address</label>
+                <input type="email" class="form-control py-2" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">🔑 Password</label>
+                <input type="password" class="form-control py-2" id="password" name="password" required>
+            </div>
+            <div class="mb-3">
+                <label for="password2" class="form-label">🔑 Confirm Password</label>
+                <input type="password" class="form-control py-2" id="password2" name="password2" required>
+            </div>
+            <button class="btn btn-dark py-2 w-100 fw-bold">📝 Register</button>
+            <a href="/login" class="d-block mt-3 text-center link-dark">Already have an account?, login here</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
