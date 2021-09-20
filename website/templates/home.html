@@ -7,6 +7,9 @@
     <div class="col-md-7 mx-auto py-5">
         <h1 class="fw-bold mb-4">📮 Posts.</h1>
         <a href="/create-post" class="btn btn-dark mb-2 px-3 py-2 fw-bold">Create Post</a>
+        {% if not posts %}
+        <p class="fw-bold text-danger text-center">No posts yet.</p>
+        {% endif %}
         {% for post in posts %}
         <div class="p-3 border shadow-sm rounded mb-2 bg-white">
             <div class="d-flex justify-content-between align-items-center">
