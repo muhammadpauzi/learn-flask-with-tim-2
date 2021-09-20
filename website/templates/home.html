@@ -13,17 +13,28 @@
                 <a href="/{{ post.user.username }}" class="text-decoration-none text-dark d-block fw-bold mb-2">{{
                     post.user.username }}</a>
 
-                {% if user.id == post.author %}
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="postDropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        🔧
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="postDropdownMenuButton">
-                        <li><a class="dropdown-item" href="/delete-post/{{ post.id }}">🔥 Delete</a></li>
-                    </ul>
+                <div>
+                    <div class="d-inline-block">
+                        {% if user.id in post.likes|map(attribute="author")|list %}
+                        <button class="btn btn-light btn-like" data-post-id="{{ post.id }}">👎 <span class="fw-bold">{{
+                                post.likes|length }}</span></button>
+                        {% else %}
+                        <button class="btn btn-light btn-like" data-post-id="{{ post.id }}">👍 <span class="fw-bold">{{
+                                post.likes|length }}</span></button>
+                        {% endif %}
+                    </div>
+                    {% if user.id == post.author %}
+                    <div class="dropdown d-inline-block">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="postDropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            🔧
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="postDropdownMenuButton">
+                            <li><a class="dropdown-item" href="/delete-post/{{ post.id }}">🔥 Delete</a></li>
+                        </ul>
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
             </div>
             <div>
                 <div class="mb-4">
