@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from . import db
-from .models import Post, User
+from .models import Post, User, Comment
 
 views = Blueprint('views', __name__)
 
@@ -56,3 +56,37 @@ def posts(username):
 
     return render_template('posts.html', user=current_user, posts=user.posts, username=user.username)
 
+@views.route('/create-comment/<int:post_id>', methods=['POST'])
+@login_required
+def create_comment(post_id):
+    content = request.form.get('content')
+
+    if not content:
+        flash('Comment cannot be empty', category='error')
+    else:
+        post = Post.query.get(post_id)
+
+        if post:
+            new_comment = Comment(content=content, author=current_user.id, post_id=post_id)
+            db.session.add(new_comment)
+            db.session.commit()
+        else:
+            flash('Post does not exist.', category='error')
+    
+    return redirect(url_for('views.home'))
+
+@views.route('/delete-comment/<int:comment_id>')
+@login_required
+def delete_comment(comment_id):
+    comment = Comment.query.get(comment_id)
+
+    if not comment:
+        flash('Comment does not exist.', category='error')
+    elif current_user.id != comment.author and current_user.id != comment.post.author:
+        flash('You do not have permission to delete this comment.', category='error')
+    else:
+        db.session.delete(comment)
+        db.session.commit()
+        flash('Comment deleted!.', category='success')
+    
+    return redirect(url_for('views.home'))

@@ -8,7 +8,7 @@
         <h1 class="fw-bold mb-4">📮 Posts.</h1>
         <a href="/create-post" class="btn btn-dark mb-2 px-3 py-2 fw-bold">Create Post</a>
         {% for post in posts %}
-        <div class="p-3 border shadow-sm rounded mb-2">
+        <div class="p-3 border shadow-sm rounded mb-2 bg-white">
             <div class="d-flex justify-content-between align-items-center">
                 <a href="/{{ post.user.username }}" class="text-decoration-none text-dark d-block fw-bold mb-2">{{
                     post.user.username }}</a>
@@ -26,7 +26,54 @@
                 {% endif %}
             </div>
             <div>
-                {{ post.content }}
+                <div class="mb-4">
+                    {{ post.content }}
+                </div>
+                <div class="mb-2">
+                    <div class="collapse mb-2" id="collapseComment{{ post.id }}">
+                        <div class="card card-body">
+                            {% for comment in post.comments %}
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <div>
+                                    <a href="/{{ comment.user.username }}"
+                                        class="link-dark fw-bold text-decoration-none">{{
+                                        comment.user.username
+                                        }}:</a>
+                                    <small>{{ comment.content }}</small>
+                                </div>
+                                {% if user.id == comment.author or user.id == post.author %}
+                                <div class="dropdown">
+                                    <button class="btn btn-light dropdown-toggle btn-sm" type="button"
+                                        id="postCommentDropdownMenuButton" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        🔧
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="postCommentDropdownMenuButton">
+                                        <li><a class="dropdown-item" href="/delete-comment/{{ comment.id }}">🔥
+                                                Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if post.comments|length > 0 %}
+                    <a href="#collapseComment{{ post.id }}" class="btn btn-light btn-sm" data-bs-toggle="collapse">
+                        Show {{ post.comments|length }} comments.
+                    </a>
+                    {% else %}
+                    <p class="text-danger fw-bold text-center">No comments</p>
+                    {% endif %}
+                </div>
+                <form method="POST" action="/create-comment/{{ post.id }}">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Comment something!" id="content"
+                            name="content">
+                        <button class="btn btn-outline-dark fw-bold">Comment</button>
+                    </div>
+                </form>
             </div>
         </div>
         {% endfor %}
