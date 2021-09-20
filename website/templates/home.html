@@ -41,20 +41,26 @@
                                         }}:</a>
                                     <small>{{ comment.content }}</small>
                                 </div>
-                                {% if user.id == comment.author or user.id == post.author %}
-                                <div class="dropdown">
-                                    <button class="btn btn-light dropdown-toggle btn-sm" type="button"
-                                        id="postCommentDropdownMenuButton" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        🔧
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="postCommentDropdownMenuButton">
-                                        <li><a class="dropdown-item" href="/delete-comment/{{ comment.id }}">🔥
-                                                Delete</a>
-                                        </li>
-                                    </ul>
+                                <div>
+                                    <small class="d-inline-block text-muted">{{
+                                        comment.date_created.strftime('%d %b %y
+                                        %H:%M')
+                                        }}</small>
+                                    {% if user.id == comment.author or user.id == post.author %}
+                                    <div class="d-inline-block dropdown">
+                                        <button class="btn btn-light dropdown-toggle btn-sm" type="button"
+                                            id="postCommentDropdownMenuButton" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            🔧
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="postCommentDropdownMenuButton">
+                                            <li><a class="dropdown-item" href="/delete-comment/{{ comment.id }}">🔥
+                                                    Delete</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
                                 </div>
-                                {% endif %}
                             </div>
                             {% endfor %}
                         </div>
